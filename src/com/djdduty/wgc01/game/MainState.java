@@ -1,26 +1,26 @@
 package com.djdduty.wgc01.game;
 
+import org.lwjgl.input.Keyboard;
+
 import com.djdduty.wgc01.core.State;
 import com.djdduty.wgc01.core.StateManager;
 import com.djdduty.wgc01.core.TextureManager;
+import com.djdduty.wgc01.graphics.Tile;
 
 public class MainState implements State {
 	private StateManager manager;
-	private Level level;
 	public void start(StateManager manager) {
 		this.manager = manager;
-		manager.getGame().writeMessage("Switched to Main State");
-		TextureManager.get().add("test", "res/tiles/test.png");
-		level = new Level();
-		level.addTile(new Tile("test", 32, 32));
+		this.manager.getGame().writeMessage("Switched to Main State");
 	}
 
 	public void update(long time) {
-		manager.getGame().writeInt(level.getListSize());
+		if(Keyboard.isKeyDown(Keyboard.KEY_2))
+			manager.changeState(new EditorState());
 	}
 
 	public void draw() {
-		level.draw();
+		
 	}
 
 }

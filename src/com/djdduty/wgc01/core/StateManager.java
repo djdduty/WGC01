@@ -26,6 +26,7 @@ public class StateManager {
 			game.writeMessage("New screen cannot be null!");
 		else
 		activeState = newState;
+		start();
 	}
 	
 	public State getActiveState() {
