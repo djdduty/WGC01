@@ -14,7 +14,6 @@ public class Tile {
 	public Tile(String imageName, int x, int y) {
 		this.x = x;
 		this.y = y;
-		bounds = new Rectangle2D.Float(x, y, size, size);
 		setTexture(imageName);
 	}
 	
@@ -22,22 +21,22 @@ public class Tile {
 		texture = TextureManager.get().get(name);
 	}
 	
-	public void updateRect() {
-		bounds.setRect(x, y, size, size);
+	public void update() {
+		
 	}
 	
-	public void draw() {
+	public void draw(int xOffset, int yOffset) {
 	glEnable(GL_TEXTURE_2D);
 		texture.bind();
 		glBegin(GL_QUADS);
-			glTexCoord2f(0,0);
-			glVertex2f(x,y);
-			glTexCoord2f(1,0);
-			glVertex2f(x+size,y);
-			glTexCoord2f(1,1);
-			glVertex2f(x+size,y+size);
-			glTexCoord2f(0,1);
-			glVertex2f(x,y+size);
+		glTexCoord2f(0,0);
+		glVertex2f(x+xOffset,y+yOffset);
+		glTexCoord2f(1,0);
+		glVertex2f(x+size+xOffset,y+yOffset);
+		glTexCoord2f(1,1);
+		glVertex2f(x+size+xOffset,y+size+yOffset);
+		glTexCoord2f(0,1);
+		glVertex2f(x+xOffset,y+size+yOffset);
 		glEnd();
 	glDisable(GL_TEXTURE_2D);
 		
@@ -70,5 +69,9 @@ public class Tile {
 	
 	public Rectangle2D.Float getRect() {
 		return bounds;
+	}
+	
+	public String getTexName() {
+		return TextureManager.get().getName(texture);
 	}
 }

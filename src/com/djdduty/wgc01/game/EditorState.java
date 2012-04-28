@@ -13,7 +13,7 @@ import com.djdduty.wgc01.graphics.Tile;
 
 public class EditorState implements State {
 	private StateManager manager;
-	private int selectedIndex, size = 16;
+	private int selectedIndex, size = 16, xoff=0, yoff=0;
 	private int positionX, positionY;
 	private boolean mouseEnabled = true;
 	private Level level;
@@ -39,19 +39,19 @@ public class EditorState implements State {
 		positionX = Mouse.getX();
 		positionY = Display.getHeight() - Mouse.getY() -1;
 		input();
+		level.update();
 	}
 
 	public void draw() {
 		drawPreview();
-		level.draw();
+		level.draw(xoff, yoff);
 	}
 	
 	public void drawPreview() {
 		preview.setX(positionX-=positionX%size);
 		preview.setY(positionY-=positionY%size);
 		preview.setTexture(textures.get(selectedIndex));
-		preview.draw();
-		
+		preview.draw(0, 0);
 	}
 	
 	public void input() {
@@ -65,11 +65,13 @@ public class EditorState implements State {
 			}else {
 				mouseEnabled = true;
 			}
-		}if(Mouse.isButtonDown(1)) {
-			if(level.tileHere(positionX-=positionX%size, positionY-=positionY%size) != null) {
-				level.remove(level.tileHere(positionX-=positionX%size, positionY-=positionY%size));
-				manager.getGame().writeMessage("Removed a tile!");
-			}
+		}
+		if(Mouse.isButtonDown(1)) {
+			level.removeUnder(positionX, positionY);
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
+			level.saveLevel();
+			manager.getGame().writeMessage("Saved level!");
 		}
 	}
 }
