@@ -8,25 +8,25 @@ import com.djdduty.wgc01.core.TextureManager;
 
 public class Tile {
 	private int x, y, size = 16;
-	private String textureName;
 	private Texture texture;
 	private Rectangle2D.Float bounds;
 	
 	public Tile(String imageName, int x, int y) {
 		this.x = x;
 		this.y = y;
-		//bounds.setRect(x, y, size, size);
-		setTexture(textureName);
+		bounds = new Rectangle2D.Float(x, y, size, size);
+		setTexture(imageName);
 	}
 	
-	private void setTexture(String textureName) {
-		texture = TextureManager.get().get(textureName);
-		if(texture == null) throw new NullPointerException("That texture is not found");
-		else this.textureName = textureName;
+	private void setTexture(String name) {
+		texture = TextureManager.get().get(name);
 	}
-
+	
+	public void updateRect() {
+		bounds.setRect(x, y, size, size);
+	}
+	
 	public void draw() {
-	//bounds.setRect(x, y, size, size);
 	glEnable(GL_TEXTURE_2D);
 		texture.bind();
 		glBegin(GL_QUADS);
@@ -41,10 +41,6 @@ public class Tile {
 		glEnd();
 	glDisable(GL_TEXTURE_2D);
 		
-	}
-	
-	public String getTexName() {
-		return textureName;
 	}
 	
 	public int getX() {

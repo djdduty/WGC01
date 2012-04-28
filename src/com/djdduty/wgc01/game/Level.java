@@ -25,9 +25,12 @@ public class Level {
 		for(int i = 0; i < Tiles.size(); i++) {
 			if (tile.getX() == Tiles.get(i).getX() && tile.getY() == Tiles.get(i).getY()) {
 				Tiles.remove(i);
+				Tiles.add(tile);
+			}else {
+				Tiles.add(tile);
 			}
 		}
-		Tiles.add(tile);
+		
 	}
 	
 	public void draw() {

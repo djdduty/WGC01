@@ -5,7 +5,7 @@ import java.util.Set;
 //I remember something along these lines in df2d engine
 //THANK GOD for documentation on hashmap >_<
 public abstract class ResourceManager<T> {
-	private HashMap<String, T> map;
+	private HashMap<String,T> map;
 	private HashMap<String,String> paths;
 	
 	public ResourceManager() {
@@ -15,20 +15,25 @@ public abstract class ResourceManager<T> {
 	
 	public abstract T extract(String path);
 	
-	public T add(String name, T t) {
-		if(t == null) return null;
+	public T add(String name, String path) {
+		if(map.containsKey(name)) {
+			if(!(paths.containsKey(name) && paths.containsValue(path)))
+				throw new RuntimeException("buggy buggy, squash it quick! :P");
+			
+			return map.get(name);
+		}
 		
-		map.put(name, t);
-		
+		T t = add(name, extract(path));
+		if(t != null)
+			paths.put(name,path);
 		return t;
 	}
 	
-	public T add(String name, String path) {
-		if(map.containsKey(name)) return map.get(name);
+	public T add(String name, T t) {
+		if(t == null)
+			return null;
 		
-		
-		T t = add(name, extract(path));
-		if(t != null) paths.put(name, path);
+		map.put(name, t);
 		
 		return t;
 	}
