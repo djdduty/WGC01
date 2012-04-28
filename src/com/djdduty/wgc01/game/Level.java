@@ -21,13 +21,13 @@ public class Level {
 		return Tiles.get(index);
 	}
 	
-	public void addTile(int x, int y, String texture) {
+	public void addTile(Tile tile) {
 		for(int i = 0; i < Tiles.size(); i++) {
-			if (x == Tiles.get(i).getX() && y == Tiles.get(i).getY()) {
+			if (tile.getX() == Tiles.get(i).getX() && tile.getY() == Tiles.get(i).getY()) {
 				Tiles.remove(i);
 			}
 		}
-		Tiles.add(new Tile(texture, x, y));
+		Tiles.add(tile);
 	}
 	
 	public void draw() {

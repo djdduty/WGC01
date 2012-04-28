@@ -15,18 +15,18 @@ public class Tile {
 	public Tile(String imageName, int x, int y) {
 		this.x = x;
 		this.y = y;
-		bounds.setRect(x, y, size, size);
+		//bounds.setRect(x, y, size, size);
 		setTexture(textureName);
 	}
 	
 	private void setTexture(String textureName) {
 		texture = TextureManager.get().get(textureName);
-		if(texture == null) throw new NullPointerException("Dumbass that texture is not found");
+		if(texture == null) throw new NullPointerException("That texture is not found");
 		else this.textureName = textureName;
 	}
 
 	public void draw() {
-	bounds.setRect(x, y, size, size);
+	//bounds.setRect(x, y, size, size);
 	glEnable(GL_TEXTURE_2D);
 		texture.bind();
 		glBegin(GL_QUADS);
