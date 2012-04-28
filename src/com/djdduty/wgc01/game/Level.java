@@ -22,9 +22,9 @@ public class Level {
 	}
 	
 	public void addTile(Tile tile) {
-		for(int i = 0; i < Tiles.size(); i++) {
-			if (tile.getX() == Tiles.get(i).getX() && tile.getY() == Tiles.get(i).getY()) {
-				Tiles.remove(i);
+		for(Tile t : Tiles) {
+			if (tile.getX() == t.getX() && tile.getY() == t.getY()) {
+				Tiles.remove(t);
 				Tiles.add(tile);
 			}else {
 				Tiles.add(tile);
@@ -34,8 +34,12 @@ public class Level {
 	}
 	
 	public void draw() {
-		for(int i = 0; i < Tiles.size(); i++) {
-			Tiles.get(i).draw();
+		for(Tile t : Tiles) {
+			t.draw();
 		}
+	}
+	
+	public int getListSize() {
+		return Tiles.size();
 	}
 }

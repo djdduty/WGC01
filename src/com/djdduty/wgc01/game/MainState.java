@@ -16,7 +16,7 @@ public class MainState implements State {
 	}
 
 	public void update(long time) {
-		
+		manager.getGame().writeInt(level.getListSize());
 	}
 
 	public void draw() {
