@@ -18,7 +18,7 @@ public class MainState implements State {
 		level = new Level();
 		TextureManager.get().add("test", "res/tiles/test.png");
 		level.loadLevel("src/res/levels/level.xml");
-		player = new Entity("test", 100, 100, level, 0.75f, 0.25f);
+		player = new Entity("test", 100, 100, level, 2.0f, 0.25f);
 		
 	}
 
@@ -26,11 +26,19 @@ public class MainState implements State {
 		if(Keyboard.isKeyDown(Keyboard.KEY_2))
 			manager.changeState(new EditorState());
 		player.update(time);
-		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
-			player.gx = 5;
+		if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
+			player.gx = 3;
+		}else {
+			if(!Keyboard.isKeyDown(Keyboard.KEY_A)) {
+				player.gx = 0;
+			}
 		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
-			player.gx = -5;
+		if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
+			player.gx = -3;
+		}else {
+			if(!Keyboard.isKeyDown(Keyboard.KEY_D)) {
+				player.gx = 0;
+			}
 		}
 	}
 

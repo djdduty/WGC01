@@ -26,8 +26,7 @@ public class Entity {
 		this.gravity = gravity;
 	}
 	
-	public void update(long time) {
-		gx = gx * friction;
+	public void update(long time) {	
 		checkGravity();
 		oldx = x;
 		oldy = y;
@@ -36,7 +35,7 @@ public class Entity {
 		if(x != oldx) wt += 0.25;
 		if(wt > 3) wt = 0;
 		checkCollision(level);
-		
+		gx = gx/friction;
 	}
 	
 	private void checkCollision(Level level) {

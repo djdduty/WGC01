@@ -24,13 +24,21 @@ public class EditorState implements State {
 		this.manager = manager;
 		
 		//init textures
-		TextureManager.get().add("test", "res/tiles/test.png");
-		textures.add("test");
+		TextureManager.get().add("grass", "res/tiles/grass.png");
+		textures.add("grass");
+		TextureManager.get().add("dirt", "res/tiles/dirt.png");
+		textures.add("dirt");
+		TextureManager.get().add("stone", "res/tiles/stone.png");
+		textures.add("stone");
+		TextureManager.get().add("black", "res/tiles/black.png");
+		textures.add("black");
+		TextureManager.get().add("air", "res/tiles/air.png");
+		textures.add("air");
 		//done with textures
 		//init other shit
 		selectedIndex = 0;
 		level = new Level();
-		preview = new Tile("test", Math.round(Display.getWidth()/size), Math.round(Display.getHeight()/size));
+		preview = new Tile("grass", Math.round(Display.getWidth()/size), Math.round(Display.getHeight()/size));
 		//done with it
 		manager.getGame().writeMessage("Succesfully switched to Editor state");
 	}
@@ -72,6 +80,21 @@ public class EditorState implements State {
 		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
 			level.saveLevel();
 			manager.getGame().writeMessage("Saved level!");
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_1)) {
+			selectedIndex = 0;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_2)) {
+			selectedIndex = 1;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_3)) {
+			selectedIndex = 2;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_4)) {
+			selectedIndex = 3;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_5)) {
+			selectedIndex = 4;
 		}
 	}
 }
