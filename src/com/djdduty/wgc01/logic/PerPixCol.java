@@ -4,23 +4,20 @@ import com.djdduty.wgc01.core.GameObject;
 
 public class PerPixCol {
 	public static Vector2 intersectPoint = new Vector2();
-	private static long lastTime;
 	
-	public static boolean intersect(GameObject entity1, GameObject Other, boolean pixelPerfect) {
-		if(lastTime == 0)
-			lastTime = System.nanoTime();
-		if(entity1.getRect().intersects(Other.getRect())) {
+	public static boolean intersect(GameObject object1, GameObject object2, boolean pixelPerfect) {
+		if(object1.getRect().intersects(object2.getRect())) {
 			if(pixelPerfect) {
-				if(entity1.getWidth() != entity1.getTexture().getImageWidth() || entity1.getHeight() != entity1.getTexture().getImageHeight())
+				if(object1.getWidth() != object1.getTexture().getImageWidth() || object1.getHeight() != object1.getTexture().getImageHeight())
 					throw new IllegalArgumentException("Dimensions are bonked object 1");
-				if(Other.getWidth() != Other.getTexture().getImageWidth() || Other.getHeight() != Other.getTexture().getImageHeight())
+				if(object2.getWidth() != object2.getTexture().getImageWidth() || object2.getHeight() != object2.getTexture().getImageHeight())
 					throw new IllegalArgumentException("Dimensions are bonked object 2");
 				try {
-					Rectangle leftMost = entity1.getRect().getX() < Other.getRect().getX() ? entity1.getRect() : Other.getRect();
-					Rectangle rightMost = Other.getRect().getX() < entity1.getRect().getX() ? entity1.getRect() : Other.getRect();
+					Rectangle leftMost = object1.getRect().getX() < object2.getRect().getX() ? object1.getRect() : object2.getRect();
+					Rectangle rightMost = object2.getRect().getX() < object1.getRect().getX() ? object1.getRect() : object2.getRect();
 					
-					Rectangle topMost = entity1.getRect().getY() < Other.getRect().getY() ? entity1.getRect() : Other.getRect();
-					Rectangle bottomMost = Other.getRect().getY() < entity1.getRect().getY() ? entity1.getRect() : Other.getRect();
+					Rectangle topMost = object1.getRect().getY() < object2.getRect().getY() ? object1.getRect() : object2.getRect();
+					Rectangle bottomMost = object2.getRect().getY() < object1.getRect().getY() ? object1.getRect() : object2.getRect();
 					
 					int left = (int) (rightMost.getX() - leftMost.getX());
 					int top = (int) (bottomMost.getY() - topMost.getY());
