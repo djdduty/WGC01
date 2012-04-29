@@ -33,10 +33,6 @@ public class Level {
 	 
 			for (int i = 0; i < list.size(); i++) {
 			   Element node = (Element) list.get(i);
-			   /*System.out.println("First Name : " + node.getChildText("firstname"));
-			   System.out.println("Last Name : " + node.getChildText("lastname"));
-			   System.out.println("Nick Name : " + node.getChildText("nickname"));
-			   System.out.println("Salary : " + node.getChildText("salary"));*/
 			   Tiles.add(new Tile(node.getAttributeValue("texture"), Integer.valueOf(node.getAttributeValue("x")), Integer.valueOf(node.getAttributeValue("y"))));
 			}
 	 
