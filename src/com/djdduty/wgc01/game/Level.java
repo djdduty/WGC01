@@ -16,7 +16,7 @@ import com.djdduty.wgc01.graphics.Tile;
 public class Level {
 	public ArrayList<Tile> Tiles = new ArrayList<Tile>();
 	private ArrayList<Tile> TilesRem = new ArrayList<Tile>();
-	private int size = 16;
+	private int size = 32;
 	public Level() {
 		
 	}
@@ -88,7 +88,7 @@ public class Level {
 		TilesRem.add(t);
 	}
 	
-	public void draw(int xoff, int yoff) {
+	public void draw(int xoff,int  yoff) {
 		for(Tile t : Tiles) {
 			t.draw(xoff, yoff);
 		}
@@ -105,5 +105,9 @@ public class Level {
 				System.out.println("Removed a tile under " + x + " " + y);
 			}
 		}
+	}
+	
+	public void clearTiles() {
+		Tiles.clear();
 	}
 }

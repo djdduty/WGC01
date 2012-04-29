@@ -1,5 +1,7 @@
 package com.djdduty.wgc01.game;
 
+import java.util.ArrayList;
+
 import org.lwjgl.input.Keyboard;
 
 import com.djdduty.wgc01.core.State;
@@ -12,13 +14,26 @@ public class MainState implements State {
 	private StateManager manager;
 	private Level level;
 	private Entity player;
+	private ArrayList<String> playerFrames = new ArrayList<String>();
+	private int xoff=0, yoff=0;
+	
 	public void start(StateManager manager) {
 		this.manager = manager;
 		this.manager.getGame().writeMessage("Switched to Main State");
 		level = new Level();
-		TextureManager.get().add("test", "res/tiles/test.png");
-		level.loadLevel("src/res/levels/level.xml");
-		player = new Entity("test", 100, 100, level, 2.0f, 0.25f);
+		//textures
+		TextureManager.get().add("grass", "res/tiles/grass.png");
+		TextureManager.get().add("dirt", "res/tiles/dirt.png");
+		TextureManager.get().add("stone", "res/tiles/stone.png");
+		TextureManager.get().add("black", "res/tiles/black.png");
+		TextureManager.get().add("air", "res/tiles/air.png");
+		//Done with textures
+		//player frames
+		TextureManager.get().add("player1", "res/player/player1.png");
+		playerFrames.add("player1");
+		//done with player frames
+		level.loadLevel("src/res/levels/level2.xml");
+		player = new Entity(playerFrames.get(0), 100, 150, level, 2.0f, 0.25f);
 		
 	}
 
@@ -40,11 +55,20 @@ public class MainState implements State {
 				player.gx = 0;
 			}
 		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_W) && player.gy == 0) {
+			player.gy = -6.f;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_S) && player.gy == 0) {
+			player.gy = 6.f;
+		}
+		if(player.getX() > 400) xoff = ((int) (player.getX() - 400) *-1);
+		if(player.getY() > 500) yoff = ((int) player.getY() -500) *-1;	
+		if(player.getY() < 200) yoff = ((int) player.getY() -200) *-1;
 	}
 
 	public void draw() {
-		level.draw(0,0);
-		player.draw(0, 0);
+		level.draw(xoff,yoff);
+		player.draw(xoff, yoff);
 	}
 
 }

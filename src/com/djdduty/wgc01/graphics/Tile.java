@@ -2,18 +2,21 @@ package com.djdduty.wgc01.graphics;
 
 import static org.lwjgl.opengl.GL11.*;
 
-import java.awt.geom.Rectangle2D;
 import org.newdawn.slick.opengl.Texture;
-import com.djdduty.wgc01.core.TextureManager;
 
-public class Tile {
-	private int x, y, size = 16;
+import com.djdduty.wgc01.core.GameObject;
+import com.djdduty.wgc01.core.TextureManager;
+import com.djdduty.wgc01.logic.Rectangle;
+
+public class Tile extends GameObject {
+	private int x, y, size = 32, xoff=0, yoff=0;
 	private Texture texture;
-	private Rectangle2D.Float bounds;
-	
+	private int width, height;
 	public Tile(String imageName, int x, int y) {
 		this.x = x;
 		this.y = y;
+		width = size;
+		height = size;
 		setTexture(imageName);
 	}
 	
@@ -39,7 +42,8 @@ public class Tile {
 		glVertex2f(x+xOffset,y+size+yOffset);
 		glEnd();
 	glDisable(GL_TEXTURE_2D);
-		
+		xoff = xOffset;
+		yoff = yOffset;
 	}
 	
 	public int getX() {
@@ -54,21 +58,31 @@ public class Tile {
 		return y;
 	}
 	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+	
 	public void setY(int y) {
 		this.y = y;
 	}
 	
+	public Texture getTexture() {
+		return texture;
+	}
+	
+	public Rectangle getRect() {
+		Rectangle rect = new Rectangle();
+		rect.setBounds(x, y, size, size);
+		rect.setOwner(this);
+		return rect;
+	}
+	
 	public int getSize() {
 		return size;
-	}
-	
-	public boolean isCollision(Rectangle2D.Float rect) {
-		if(bounds.intersects(rect)) return true;
-		else return false;
-	}
-	
-	public Rectangle2D.Float getRect() {
-		return bounds;
 	}
 	
 	public String getTexName() {

@@ -13,7 +13,7 @@ import com.djdduty.wgc01.graphics.Tile;
 
 public class EditorState implements State {
 	private StateManager manager;
-	private int selectedIndex, size = 16, xoff=0, yoff=0;
+	private int selectedIndex, size = 32, xoff=0, yoff=0;
 	private int positionX, positionY;
 	private boolean mouseEnabled = true;
 	private Level level;
@@ -56,18 +56,19 @@ public class EditorState implements State {
 	}
 	
 	public void drawPreview() {
-		preview.setX(positionX-=positionX%size);
-		preview.setY(positionY-=positionY%size);
+		preview.setX((positionX-=positionX%size) - xoff-xoff%size);
+		preview.setY((positionY-=positionY%size) - yoff-yoff%size);
 		preview.setTexture(textures.get(selectedIndex));
-		preview.draw(0, 0);
+		preview.update();
+		preview.draw(xoff, yoff);
 	}
 	
 	public void input() {
 		while(Mouse.next()) {
 			if(mouseEnabled) {
 				if(Mouse.getEventButton() == 0) {
-						level.addTile(new Tile(textures.get(selectedIndex), positionX-=positionX%size, positionY-=positionY%size));
-						manager.getGame().writeMessage("Made tile at " + (positionX-=positionX%size) + " " + (positionY-=positionY%size));
+						level.addTile(new Tile(preview.getTexName(), preview.getX(), preview.getY()));
+						manager.getGame().writeMessage("Made " + preview.getTexName() + " at " + preview.getX() + " " + preview.getY());
 						mouseEnabled = false;
 				}
 			}else {
@@ -80,6 +81,10 @@ public class EditorState implements State {
 		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
 			level.saveLevel();
 			manager.getGame().writeMessage("Saved level!");
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_L)) {
+			level.clearTiles();
+			level.loadLevel("src/res/levels/level2.xml");
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_1)) {
 			selectedIndex = 0;
@@ -95,6 +100,18 @@ public class EditorState implements State {
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_5)) {
 			selectedIndex = 4;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
+			xoff -= 16;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
+			xoff += 16;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_UP)) {
+			yoff += 16;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
+			yoff -= 16;
 		}
 	}
 }

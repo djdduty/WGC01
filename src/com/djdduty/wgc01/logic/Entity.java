@@ -2,20 +2,19 @@ package com.djdduty.wgc01.logic;
 
 import static org.lwjgl.opengl.GL11.*;
 
-import java.awt.Rectangle;
-
 import org.newdawn.slick.opengl.Texture;
 
+import com.djdduty.wgc01.core.GameObject;
 import com.djdduty.wgc01.core.TextureManager;
 import com.djdduty.wgc01.game.Level;
 import com.djdduty.wgc01.graphics.Tile;
 
-public class Entity {
+public class Entity extends GameObject {
 	public float gx = 0f, gy = 0f, friction, gravity, wt = 0;
 	private Level level;
-	private int x, y, width, height, oldx, oldy;
+	private int x, y, width, height, oldx, oldy, xoff = 0, yoff = 0;
 	private Texture texture;
-	private Boolean gravityOn = false;
+	public Boolean gravityOn = false;
 	
 	public Entity(String texName, int startX, int startY, Level level, float friction, float gravity) {
 		this.level = level;
@@ -26,6 +25,13 @@ public class Entity {
 		this.gravity = gravity;
 	}
 	
+	public Rectangle getRect() {
+		Rectangle rect = new Rectangle();
+		rect.setBounds(x, y, width, height);
+		rect.setOwner(this);
+		return rect;
+	}
+	
 	public void update(long time) {	
 		checkGravity();
 		oldx = x;
@@ -33,7 +39,6 @@ public class Entity {
 		x += gx;
 		y += gy;
 		if(x != oldx) wt += 0.25;
-		if(wt > 3) wt = 0;
 		checkCollision(level);
 		gx = gx/friction;
 	}
@@ -48,11 +53,11 @@ public class Entity {
 		int w = getWidth();
 		int h = getHeight();
 		Rectangle prY = new Rectangle();
-		prY.setBounds(x+1, y, width-2, height);
+		prY.setBounds((x+2)+xoff, y+yoff, width-2, height);
 		Rectangle prX = new Rectangle();
-		prX.setBounds(x, y + 1, w, h-2);
+		prX.setBounds(x+xoff, (y + 2)+yoff, w, h-2);
 		Rectangle oR = new Rectangle();
-		oR.setBounds(ox, oy, ow, oh);
+		oR.setBounds(ox+xoff, oy+yoff, ow, oh);
 		
 		if(prX.intersects(oR)) {
 			x = oldx;
@@ -89,9 +94,10 @@ public class Entity {
 			glVertex2f(x+xOffset,y+getHeight()+yOffset);
 		glEnd();
 	glDisable(GL_TEXTURE_2D);
-		
+		xoff = xOffset;
+		yoff = yOffset;
 	}
-	public float getX() {
+	public int getX() {
 		return x;
 	}
 	
@@ -99,7 +105,7 @@ public class Entity {
 		this.x = x;
 	}
 	
-	public float getY() {
+	public int getY() {
 		return y;
 	}
 	
@@ -119,5 +125,9 @@ public class Entity {
 	
 	public int getHeight() {
 		return texture.getImageHeight();
+	}
+	
+	public Texture getTexture() {
+		return texture;
 	}
 }

@@ -47,6 +47,7 @@ public class Game {
 		//enable shit!
 		glEnable(GL_BLEND);
 		glEnable(GL_ALPHA_TEST);
+		glClearColor(0.4f, 0.8f, 0.9f, 1.0f);
 		//we want things to blend correctly
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		sManager.start();
