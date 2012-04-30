@@ -21,16 +21,16 @@ public class PerPixCol {
 					
 					int left = (int) (rightMost.getX() - leftMost.getX());
 					int top = (int) (bottomMost.getY() - topMost.getY());
-					int width = Integer.valueOf((int) Math.round(leftMost.getWidth())) - left;
-					int height = Integer.valueOf((int) Math.round(topMost.getHeight())) - top;
+					int width = (int) (leftMost.getWidth() - left);
+					int height = (int) (topMost.getHeight() - top);
 					byte[] leftData = leftMost.getOwner().getTexture().getTextureData();
 					byte[] rightData = rightMost.getOwner().getTexture().getTextureData();		
 					int leftTop = leftMost == topMost ? top : 0;
 					int rightTop = rightMost == topMost ? top : 0;		
 					for(int y = 0; y < height; y++) {
 						for(int x = 0; x < width; x++) {
-							int leftIdx = 3 + 4 * (x + left + (y + leftTop) * Integer.valueOf((int) Math.round(leftMost.getWidth())));
-							int rightIdx = 3 + 4 * (x + (y + rightTop) * Integer.valueOf((int) Math.round(rightMost.getWidth())));	
+							int leftIdx = (int) (3 + 4 * (x + left + (y + leftTop) * leftMost.getWidth()));
+							int rightIdx = (int) (3 + 4 * (x + (y + rightTop) * rightMost.getWidth()));	
 							if(!((((int)leftData[leftIdx]) & 0xff) < 100 || (((int)rightData[rightIdx]) & 0xff) < 100)) {
 								intersectPoint.x(leftMost.getX() + x + left);
 								intersectPoint.y(leftMost.getY() + y + (leftMost == topMost ? top : 0));

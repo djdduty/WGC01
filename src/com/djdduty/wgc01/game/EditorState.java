@@ -1,11 +1,15 @@
 package com.djdduty.wgc01.game;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
+import com.djdduty.wgc01.core.Level;
 import com.djdduty.wgc01.core.State;
 import com.djdduty.wgc01.core.StateManager;
 import com.djdduty.wgc01.core.TextureManager;
@@ -34,6 +38,8 @@ public class EditorState implements State {
 		textures.add("black");
 		TextureManager.get().add("air", "res/tiles/air.png");
 		textures.add("air");
+		TextureManager.get().add("wood", "res/tiles/log.png");
+		textures.add("wood");
 		//done with textures
 		//init other shit
 		selectedIndex = 0;
@@ -51,8 +57,8 @@ public class EditorState implements State {
 	}
 
 	public void draw() {
-		drawPreview();
 		level.draw(xoff, yoff);
+		drawPreview();
 	}
 	
 	public void drawPreview() {
@@ -76,15 +82,20 @@ public class EditorState implements State {
 			}
 		}
 		if(Mouse.isButtonDown(1)) {
-			level.removeUnder(positionX, positionY);
+			level.removeUnder(positionX-xoff, positionY-yoff);
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			level.saveLevel();
+			level.saveLevel("src/res/levels/level2.xml");
 			manager.getGame().writeMessage("Saved level!");
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_L)) {
 			level.clearTiles();
-			level.loadLevel("src/res/levels/level2.xml");
+			try {
+				level.loadLevel(new FileInputStream("src/res/levels/level.xml"));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_1)) {
 			selectedIndex = 0;
@@ -100,6 +111,10 @@ public class EditorState implements State {
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_5)) {
 			selectedIndex = 4;
+		}
+
+		if(Keyboard.isKeyDown(Keyboard.KEY_6)) {
+			selectedIndex = 5;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
 			xoff -= 16;

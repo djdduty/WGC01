@@ -5,8 +5,8 @@ import static org.lwjgl.opengl.GL11.*;
 import org.newdawn.slick.opengl.Texture;
 
 import com.djdduty.wgc01.core.GameObject;
+import com.djdduty.wgc01.core.Level;
 import com.djdduty.wgc01.core.TextureManager;
-import com.djdduty.wgc01.game.Level;
 import com.djdduty.wgc01.graphics.Tile;
 
 public class Entity extends GameObject {
@@ -52,25 +52,35 @@ public class Entity extends GameObject {
 	private void collide(Object o, int ox, int oy, int ow, int oh) {
 		int w = getWidth();
 		int h = getHeight();
-		Rectangle prY = new Rectangle();
-		prY.setBounds((x+2)+xoff, y+yoff, width-2, height);
-		Rectangle prX = new Rectangle();
-		prX.setBounds(x+xoff, (y + 2)+yoff, w, h-2);
+		Rectangle prT = new Rectangle();
+		prT.setBounds((x)+xoff, y+yoff, width, 2);
+		Rectangle prB = new Rectangle();
+		prB.setBounds(x+xoff, y+yoff+height-2, width, 2);
+		Rectangle prL = new Rectangle();
+		prL.setBounds(x+xoff, y+yoff+ 2, 2, height-2);
+		Rectangle prR = new Rectangle();
+		prR.setBounds(x+xoff+width-2, y+yoff+ 2, 2, height-2);
 		Rectangle oR = new Rectangle();
 		oR.setBounds(ox+xoff, oy+yoff, ow, oh);
 		
-		if(prX.intersects(oR)) {
+		if(prL.intersects(oR) || prR.intersects(oR)) {
 			x = oldx;
 			gx = 0;
 			gravityOn = true;
 		}
-		if(prY.intersects(oR)) {
+		
+		if(prT.intersects(oR) || prB.intersects(oR)) {
 			y = oldy;
 			gy = 0;
 			gravityOn = false;
 		}else {
 			gravityOn = true;
 		}
+		/*for(Tile t : level.Tiles)
+		if(PerPixCol.intersect(this, t, true)) {
+			x = oldx;
+			y = oldy;
+		}*/
 	}
 
 	private void checkGravity() {
